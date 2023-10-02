@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<style>
+    ul {
+        list-style-type: none;
+    }
+    .resume_salary{
+        text-align: center;
+    }
+    #form_calculate{
+        padding-bottom: 1rem;
+    }
+    .result_table{
+        display: inline-block;
+    }
+    img{
+        height: 300px !important;
+        width: 300px !important;
+    }
+    h1{
+        color: white;
+        background-color: #313538;
+    }
+    .title{
+        text-align: right;
+    }
+    .texto-articulo{
+        height: 300px !important;
+        width: 300px !important;
+    }
+    .foot_buttom{
+        padding-top: 3rem;
+    }
+    .selector{
+        padding-bottom: 3rem;
+    }
+</style>
+<body>
+    <div class="title row">
+        <h1>Tienda online</h1>
+    </div>
+    <div class="resume_salary container">
+        <div class="row selector">
+            <div class="col-sm-6 select-option" id="select-option"></div>
+        </div>
+        <div class="row view_product" id="view_product">
+            <div class="col-sm-6">
+                <img  id="imagen"/>
+            </div>
+            <div class="col-sm-6" class="texto-articulo">
+                <div id="texto-articulo"></div>
+            </div>
+        </div>
+        <div class="row foot_buttom">
+            <button onclick="getProductsFromBucket()" class="btn btn-dark">Actualizar Lista</button>
+        </div>
+    </div>
+
+    <script>  
+    
+        const verDetalle = ($event) => {
+            //Obtiene la referencia al elemento del DOM que contendra el detalle del producto  
+            document.getElementById("view_product").style.display = "none";
+            console.log($event.target.value)
+
+            //Valida si la opcion no es la opcion por default para crear un request al controlador
+            if($event.target.value != 'undefined'){
+                //Realiza una peticion POST para obtener el la imagen e informacion de los productos
+                var obj = new Object();
+                obj.idetifyer = event.target.value;
+                fetch("consulta/", {
+                    method: "POST",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": '{{csrf_token}}' 
+                    },
+                    body: JSON.stringify(obj)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    //Una vez serializado a un objeto JSON se decodifica la informacion para obtener el arreglo
+                    //original de bytes, tambien se agrega el contenido a los elementos DOM que deben contener 
+                    //la informacion
+                    console.log(data)
+                    document.getElementById('imagen').src = 'data:image/png;base64, '+data.imagen;
+                    document.getElementById("texto-articulo").innerHTML = atob(data.detail);
+                    document.getElementById("view_product").style.display = "";
+                });
+            }
+        }
+    
+        const getProductsFromBucket = () => {   
+            //Oculta la lista de resultados para no mostrar lista vacia
+            document.getElementById("view_product").style.display = "none";
+
+            //Realiza una peticion http al controlador
+            //Configura la peticion para usar GET y el hader que autentica el origen
+            fetch("consulta/", {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                //Una vez recibido el response se serializa como objeton JS
+
+                //Obtiene la referencia al objeto del DOM que contendra la lista
+                const selectSection = document.getElementById('select-option')
+
+                //Se crea la lista
+                let selectProduct = document.createElement("SELECT");
+                selectProduct.setAttribute("id", "listConst");
+                selectProduct.setAttribute("class", "form-select");
+                selectProduct.addEventListener("change",verDetalle)
+                selectSection.appendChild(selectProduct)
+
+                //Se crea un elemento por default que no hace referencia ningun objeto
+                //Se utilizara como opcion por default
+                let option = document.createElement("option");
+                option.setAttribute("value", undefined);
+                let text = document.createTextNode("Selecciona una opcion");
+                option.appendChild(text);
+                selectProduct.appendChild(option)
+
+                //Itera sobre la lista de productos que retorno el backend para crear
+                //dinamicamente los objetos en el DOM y los asocia al objeto SELECT
+                const productList = data.productList
+                for(element of productList){
+                    let option = document.createElement("option");
+                    option.setAttribute("value", element);
+                    let text = document.createTextNode(element);
+                    option.appendChild(text);
+                    selectProduct.appendChild(option)
+                }
+
+            });
+        }
+        
+        getProductsFromBucket()
+
+    </script>
+</html>
