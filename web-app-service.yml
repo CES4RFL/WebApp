@@ -1,0 +1,19 @@
+apiVersion: v1
+#tipo de template service
+kind: Service
+metadata:
+  #nombre con el que se etiqueta el servicio
+  name: web-app-service
+spec:
+  selector:
+    #Redireccionara y balanceara entre todas las replicas que tengan este selector
+    app: web-app
+  #tipo de servicio
+  type: NodePort
+  ports:
+    #Definicion de protocolo de conexion con el pod
+  - protocol: TCP
+    # puerto expuesto de la red virtual creada por docker(recordar que minikube se ejecuta dentro de un contenedor)
+    port: 8081
+    # puesto expuesto dentro del contendor puede visualizarlo en el template de deployment
+    targetPort: 8080

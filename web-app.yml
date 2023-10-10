@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+#Tipo de template deployment
+kind: Deployment
+metadata:
+  name: web-app-deployment
+  labels:
+    #Con esta etiqueta se nombraran todos los pods y replicas que se creen con este manifesto
+    app: web-app
+spec:
+  #Numero de replicas configuradas para este deployment
+  replicas: 1
+  selector:
+    matchLabels:
+      #Necesario para poder mapear el servicio con los pods en la creacion del servicio
+      app: web-app
+  #Informacion de la metadata de este template
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        #Nombre del contenedor a crear dentro del pod
+      - name: web-app
+        #Nombre de la imagen dentro del repositorio
+        image: web-app
+        imagePullPolicy: Never
+        #Puerto expuesto dentro del contenedor es posible visualizarlo en el docker file de la aplicacion
+        ports:
+        - containerPort: 8080
