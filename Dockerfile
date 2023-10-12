@@ -4,14 +4,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /WebApp
 
-RUN --mount=type=secret,id=ident \
-    cat /run/secrets/ident  
+ARG AWS_ACCESS_KEY_ID
+ENV AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}
 
-RUN --mount=type=secret,id=key \
-   cat /run/secrets/key 
-
-RUN export AWS_ACCESS_KEY_ID=$(cat /run/secrets/ident) 
-RUN export AWS_SECRET_ACCESS_KEY=$(cat /run/secrets/key)
+ARG AWS_SECRET_ACCESS_KEY
+ENV AWS_SECRET_ACCESS_KEY ${AWS_SECRET_ACCESS_KEY}
 
 COPY requirements.txt /WebApp/
 
