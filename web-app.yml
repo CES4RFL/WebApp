@@ -2,7 +2,7 @@ apiVersion: apps/v1
 #Tipo de template deployment
 kind: Deployment
 metadata:
-  name: web-app-deployment
+  name: web-app
   labels:
     #Con esta etiqueta se nombraran todos los pods y replicas que se creen con este manifesto
     app: web-app
@@ -23,7 +23,14 @@ spec:
         #Nombre del contenedor a crear dentro del pod
       - name: web-app
         #Nombre de la imagen dentro del repositorio
-        image: web-app
+        image: cesardocker12/web-app:1.0.0
+        resources:
+        requests:
+          memory: "1000Mi"
+          cpu: "1000m"
+        limits:
+          memory: "2000Mi"
+          cpu: "1000m"
         imagePullPolicy: Never
         #Puerto expuesto dentro del contenedor es posible visualizarlo en el docker file de la aplicacion
         ports:
