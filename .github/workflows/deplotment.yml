@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: cesardocker12/web-app:9.0.0
+          tags: cesardocker12/web-app:10.0.0
           secrets: |
             "ident=${{ secrets.AWS_ACCESS_KEY_ID }}"
             "key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"

@@ -10,8 +10,8 @@ RUN --mount=type=secret,id=ident \
 RUN --mount=type=secret,id=key \
    cat /run/secrets/key 
 
-RUN export AWS_ACCESS_KEY_ID=$(cat /run/secrets/AWS_ACCESS_KEY_ID) 
-RUN export AWS_SECRET_ACCESS_KEY=$(cat /run/secrets/AWS_SECRET_ACCESS_KEY)
+RUN export AWS_ACCESS_KEY_ID=$(cat /run/secrets/ident) 
+RUN export AWS_SECRET_ACCESS_KEY=$(cat /run/secrets/key)
 
 COPY requirements.txt /WebApp/
 
