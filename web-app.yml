@@ -23,7 +23,7 @@ spec:
         #Nombre del contenedor a crear dentro del pod
       - name: web-app
         #Nombre de la imagen dentro del repositorio
-        image: cesardocker12/web-app:1.0.0
+        image: cesardocker12/web-app:2.0.0
         resources:
           requests:
             memory: "1000Mi"
