@@ -4,11 +4,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /WebApp
 
-RUN --mount=type=secret,id=AWS_ACCESS_KEY_ID \
-    cat /run/secrets/AWS_ACCESS_KEY_ID  
+RUN --mount=type=secret,id=ident \
+    cat /run/secrets/ident  
 
-RUN --mount=type=secret,id=AWS_SECRET_ACCESS_KEY \
-   cat /run/secrets/AWS_SECRET_ACCESS_KEY 
+RUN --mount=type=secret,id=key \
+   cat /run/secrets/key 
 
 RUN export AWS_ACCESS_KEY_ID=$(cat /run/secrets/AWS_ACCESS_KEY_ID) 
 RUN export AWS_SECRET_ACCESS_KEY=$(cat /run/secrets/AWS_SECRET_ACCESS_KEY)

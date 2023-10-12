@@ -39,10 +39,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: cesardocker12/web-app:8.0.0
+          tags: cesardocker12/web-app:9.0.0
           secrets: |
-            "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
-            "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            "ident=${{ secrets.AWS_ACCESS_KEY_ID }}"
+            "key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
       - name: Copy folder content recursively to remote
         uses: appleboy/scp-action@master
