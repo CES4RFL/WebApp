@@ -26,12 +26,12 @@ spec:
         image: cesardocker12/web-app:2.0.0
         resources:
           requests:
-            memory: "1000Mi"
-            cpu: "1000m"
+            memory: "500Mi"
+            cpu: "400m"
           limits:
             memory: "2000Mi"
-            cpu: "1000m"
-        imagePullPolicy: Never
+            cpu: "400m"
+        imagePullPolicy: Always
         #Puerto expuesto dentro del contenedor es posible visualizarlo en el docker file de la aplicacion
         ports:
         - containerPort: 8080
