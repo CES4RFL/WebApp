@@ -40,7 +40,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: cesardocker12/web-app:15.0.0
+          tags: cesardocker12/web-app:16.0.0
           build-args: |
             "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
             "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
